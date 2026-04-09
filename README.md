@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Iron Vault Token
 
-## Getting Started
+Iron Vault Token is a cinematic presale landing page built with Next.js App Router, TypeScript, Tailwind CSS, Framer Motion, GSAP ScrollTrigger, and Lenis.
 
-First, run the development server:
+The experience is designed to feel like entering a controlled financial system rather than browsing a generic crypto landing page. Motion is deliberately heavy, tactile, and sequenced around the product narrative.
+
+## Stack
+
+- Next.js 16 App Router
+- TypeScript
+- Tailwind CSS v4
+- Framer Motion
+- GSAP + ScrollTrigger
+- Lenis smooth scrolling
+
+## Experience Layers
+
+- Opening hero sequence with steel-panel vault reveal
+- Pointer-reactive hero card and floating emblem
+- Animated presale ticker strip
+- Scroll-driven shutter, stack, and pinned process choreography
+- Premium modular bento section
+- Operational trust / proof panels
+- Animated FAQ accordion
+- Lead capture form backed by `/api/intake`
+- Sticky mobile CTA
+
+## Run Locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Validation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+Both commands pass on the current implementation.
 
-To learn more about Next.js, take a look at the following resources:
+## Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+src/
+  app/
+    api/intake/route.ts
+    globals.css
+    layout.tsx
+    page.tsx
+  components/
+    landing/
+      content.ts
+      faq-accordion.tsx
+      intake-form.tsx
+      magnetic-button.tsx
+      use-vault-scroll.ts
+      vault-mark.tsx
+      vault-page.tsx
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notes
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The intake endpoint currently validates and acknowledges requests without persistence.
+- Typography uses `next/font` and is optimized for performance.
+- The heavier GSAP pinning behavior is constrained to larger breakpoints to protect mobile feel and performance.
+# Iron-Vault
