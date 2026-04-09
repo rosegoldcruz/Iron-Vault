@@ -1,0 +1,6 @@
+- Build and extend this project as a motion-first premium landing page, not a generic SaaS or crypto template.
+- Preserve the Next.js App Router structure and keep the root page server-rendered with interactive layers isolated to client components.
+- Use Framer Motion for tactile component interactions and GSAP ScrollTrigger for large scroll choreography.
+- Keep motion physical: avoid default easing, lazy fade-ins, and decorative animation with no narrative purpose.
+- Protect performance, especially on mobile. Heavy pinned interactions should remain breakpoint-aware.
+- Validate changes with `npm run lint` and `npm run build` before closing substantial work.
