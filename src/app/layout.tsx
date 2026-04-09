@@ -26,7 +26,7 @@ const mono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "Iron Vault Token",
   description:
-    "A cinematic controlled-access presale experience for Iron Vault Token.",
+    "Iron Vault Token (IVT) presale — the utility and royalty layer of the Common Wealth Ventures ecosystem. 250,000 tokens per package. Exchange launch November 1, 2026.",
   applicationName: "Iron Vault Token",
 };
 

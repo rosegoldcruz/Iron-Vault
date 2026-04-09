@@ -37,15 +37,15 @@ const heroEase = [0.16, 1, 0.3, 1] as const;
 const panelEase = [0.76, 0, 0.24, 1] as const;
 
 const headlineLines = [
-  "Capital deserves doors that resist.",
-  "Iron Vault opens only on verified intent.",
+  "Get in before the exchange opens.",
+  "Iron Vault Token presale is live.",
 ];
 
 const navItems = [
-  { label: "What it is", href: "#what" },
-  { label: "Why it matters", href: "#why" },
-  { label: "Process", href: "#process" },
-  { label: "Proof", href: "#proof" },
+  { label: "The token", href: "#what" },
+  { label: "Why now", href: "#why" },
+  { label: "How it works", href: "#process" },
+  { label: "Trust", href: "#proof" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -162,7 +162,7 @@ export function VaultPage() {
                   Iron Vault
                 </p>
                 <p className="font-data text-[0.62rem] uppercase tracking-[0.32em] text-white/40">
-                  Token access desk
+                  Presale now open
                 </p>
               </div>
             </a>
@@ -178,7 +178,7 @@ export function VaultPage() {
               ))}
             </nav>
             <MagneticButton href="#intake" className="hidden lg:inline-flex">
-              Request access
+              Opt in now
             </MagneticButton>
           </div>
         </header>
@@ -203,7 +203,7 @@ export function VaultPage() {
                 transition={{ duration: 0.9, delay: 1.05, ease: heroEase }}
                 className="section-kicker"
               >
-                Private presale interface
+                Iron Vault Token presale
               </motion.div>
               <div className="mt-6 max-w-4xl space-y-2">
                 {headlineLines.map((line, index) => (
@@ -225,10 +225,10 @@ export function VaultPage() {
                 transition={{ duration: 0.9, delay: 1.45, ease: heroEase }}
                 className="mt-8 max-w-2xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg"
               >
-                Iron Vault Token is a controlled-access presale engineered to feel
-                like entering a protected system. Allocation is reviewed, onboarding is
-                guided, and every release decision is framed around trust, pressure
-                control, and operational composure.
+                Iron Vault Token is the utility and royalty layer of the Common Wealth
+                Ventures ecosystem. Presale participants receive 250,000 tokens at founding
+                pricing before the November 1, 2026 exchange launch. Opt in, speak with a
+                representative, and secure your allocation.
               </motion.p>
 
               <motion.div
@@ -237,9 +237,9 @@ export function VaultPage() {
                 transition={{ duration: 0.85, delay: 1.58, ease: heroEase }}
                 className="mt-10 flex flex-col gap-4 sm:flex-row"
               >
-                <MagneticButton href="#intake">Secure presale access</MagneticButton>
+                <MagneticButton href="#intake">Secure your tokens</MagneticButton>
                 <MagneticButton href="#proof" variant="ghost">
-                  Inspect proof layer
+                  Why trust us
                 </MagneticButton>
               </motion.div>
 
@@ -282,13 +282,13 @@ export function VaultPage() {
                 />
                 <div className="absolute inset-0 metal-hatch opacity-45" />
                 <div className="absolute right-5 top-5 data-pill hidden lg:inline-flex">
-                  Phase 01 armed
+                  Presale live
                 </div>
                 <div className="relative grid gap-6 lg:grid-cols-[0.78fr_1fr]">
                   <div className="flex flex-col justify-between gap-6">
                     <div>
                       <p className="font-data text-[0.62rem] uppercase tracking-[0.32em] text-white/42">
-                        Vault emblem
+                        IVT emblem
                       </p>
                       <motion.div
                         className="mt-5"
@@ -312,7 +312,7 @@ export function VaultPage() {
                         <VaultMark className="mx-auto h-48 w-48 lg:h-56 lg:w-56" />
                       </motion.div>
                     </div>
-                    <div className="data-pill w-fit">Verified intent only</div>
+                    <div className="data-pill w-fit">Presale participants only</div>
                   </div>
 
                   <div className="space-y-4">
@@ -320,10 +320,10 @@ export function VaultPage() {
                       <div className="flex items-center justify-between gap-4 border-b border-white/8 pb-4">
                         <div>
                           <p className="font-data text-[0.62rem] uppercase tracking-[0.32em] text-white/42">
-                            Private terminal
+                            Token overview
                           </p>
                           <p className="mt-2 text-xl tracking-[0.02em] text-white">
-                            Presale control room
+                            Presale dashboard
                           </p>
                         </div>
                         <div className="data-pill">live</div>
@@ -331,15 +331,15 @@ export function VaultPage() {
                       <div className="mt-4 grid gap-3 sm:grid-cols-2">
                         <div className="rounded-[1.15rem] border border-white/8 bg-white/[0.025] p-4">
                           <p className="font-data text-[0.58rem] uppercase tracking-[0.3em] text-white/40">
-                            Allocation pool
+                            Presale price
                           </p>
-                          <p className="mt-3 font-data text-2xl text-[#f0cf86]">12.5M IVT</p>
+                          <p className="mt-3 font-data text-2xl text-[#f0cf86]">$0.001</p>
                         </div>
                         <div className="rounded-[1.15rem] border border-white/8 bg-white/[0.025] p-4">
                           <p className="font-data text-[0.58rem] uppercase tracking-[0.3em] text-white/40">
-                            Access lane
+                            Per package
                           </p>
-                          <p className="mt-3 font-data text-2xl text-white">Consult-led</p>
+                          <p className="mt-3 font-data text-2xl text-white">250K tokens</p>
                         </div>
                       </div>
                     </div>
@@ -351,15 +351,15 @@ export function VaultPage() {
                       <div className="mt-4 space-y-3 text-sm text-[rgba(245,239,229,0.68)]">
                         <div className="flex items-start gap-3 border-b border-white/6 pb-3">
                           <span className="font-data text-[0.62rem] text-[#f0cf86]">01</span>
-                          <p>Steel-band access gates withdraw only after validation enters the room.</p>
+                          <p>Every presale participant speaks with a live representative before committing.</p>
                         </div>
                         <div className="flex items-start gap-3 border-b border-white/6 pb-3">
                           <span className="font-data text-[0.62rem] text-[#f0cf86]">02</span>
-                          <p>Support stays human where trust has real monetary consequence.</p>
+                          <p>Royalty participation distributes trading volume fees 24/7 on-chain.</p>
                         </div>
                         <div className="flex items-start gap-3">
                           <span className="font-data text-[0.62rem] text-[#f0cf86]">03</span>
-                          <p>Release timing is sequenced to preserve authority once demand accelerates.</p>
+                          <p>Exchange launch is set for November 1, 2026 across multiple platforms.</p>
                         </div>
                       </div>
                     </div>
@@ -397,14 +397,14 @@ export function VaultPage() {
             </div>
             <div className="relative z-10">
               <div className="max-w-3xl">
-                <span className="section-kicker">What Iron Vault is</span>
+                <span className="section-kicker">What Iron Vault Token is</span>
                 <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4.3rem]">
-                  A token launch authored like a controlled financial system.
+                  The utility and royalty layer of the Common Wealth Ventures ecosystem.
                 </h2>
                 <p className="mt-6 max-w-2xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                  The experience is cinematic because the operating doctrine is serious.
-                  Iron Vault Token treats access, reserve policy, and onboarding as
-                  parts of the product, not invisible backend details.
+                  IVT powers transactions within the platform, enables royalty participation
+                  tied to trading volume, and supports a long-term roadmap toward real-world
+                  asset acquisition and a stablecoin backed by commercial holdings.
                 </p>
               </div>
 
@@ -431,14 +431,14 @@ export function VaultPage() {
         <section id="why" className="vault-section">
           <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
             <div>
-              <span className="section-kicker">Why it matters</span>
+              <span className="section-kicker">Why now</span>
               <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                The right investors do not need a louder room. They need a cleaner one.
+                The presale is the only window at founding price. It does not reopen.
               </h2>
               <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                Controlled friction signals intent. Sequenced access signals maturity.
-                Operational transparency signals that the team expects scrutiny and is built
-                to survive it.
+                Once the presale allocation fills or the exchange launches on November 1,
+                2026, this pricing is gone. Early participants lock in the lowest entry
+                point and qualify for royalty participation from day one.
               </p>
               <div className="mt-8 glow-divider max-w-xl" />
             </div>
@@ -473,29 +473,29 @@ export function VaultPage() {
             <div className="grid gap-10 lg:h-[38rem] lg:grid-cols-[0.82fr_1.18fr]">
               <div className="flex flex-col justify-between gap-6">
                 <div>
-                  <span className="section-kicker">How the process works</span>
+                  <span className="section-kicker">How it works</span>
                   <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                    Each layer clears before the next one moves.
+                    Four steps from opt-in to secured allocation.
                   </h2>
                   <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                    Scroll through the launch sequence like you are descending through
-                    deeper security bands. The motion mirrors the actual operating logic:
-                    nothing opens before the prior state is settled.
+                    The presale is consultation-led by design. You submit your information,
+                    speak with a representative, review the full terms, and decide if it is
+                    right for you. No bots, no automated checkout.
                   </p>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="panel-surface cut-corners p-5">
                     <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      Presale posture
+                      Presale price
                     </p>
-                    <p className="mt-4 text-lg text-white">Designed for disciplined entry, not impulse.</p>
+                    <p className="mt-4 text-lg text-white">$0.001 per token — founding participant pricing.</p>
                   </div>
                   <div className="panel-surface cut-corners p-5">
                     <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      Onboarding mode
+                      Support
                     </p>
-                    <p className="mt-4 text-lg text-white">Operator-guided where stakes justify precision.</p>
+                    <p className="mt-4 text-lg text-white">Live reps available at 888-368-2502.</p>
                   </div>
                 </div>
               </div>
@@ -541,13 +541,13 @@ export function VaultPage() {
 
         <section id="modules" className="vault-section">
           <div className="max-w-3xl">
-            <span className="section-kicker">Operational modules</span>
+            <span className="section-kicker">Ecosystem overview</span>
             <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-              A premium bento system assembled like secure instrumentation.
+              Everything built into the Iron Vault Token ecosystem.
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-              These cards are not decorative. Each one expresses a pressure point in the
-              launch design: timing, support, access, value routing, and ecosystem control.
+              From the three-phase roadmap to the referral program, each layer of the
+              ecosystem is designed to create long-term value for participants.
             </p>
           </div>
 
@@ -584,14 +584,14 @@ export function VaultPage() {
         <section id="proof" className="vault-section">
           <div className="grid gap-10 lg:grid-cols-[0.84fr_1.16fr]">
             <div>
-              <span className="section-kicker">Trust / proof</span>
+              <span className="section-kicker">Trust and transparency</span>
               <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                Transparency with structure feels operational. That is the point.
+                A registered US company with real people and a published timeline.
               </h2>
               <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                Iron Vault avoids soft trust language. The proof layer shows how the
-                system is staffed, timed, and governed so participants can audit the tone
-                against the mechanics.
+                Common Wealth Ventures LLC is based in Peoria, Arizona. Our representatives
+                are reachable by phone. All presale terms are disclosed before any
+                commitment is made.
               </p>
 
               <div className="mt-10 grid gap-4 sm:grid-cols-2">
@@ -650,11 +650,11 @@ export function VaultPage() {
             <div>
               <span className="section-kicker">FAQ</span>
               <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                Direct answers for people who expect signal, not spin.
+                Common questions about Iron Vault Token and the presale.
               </h2>
               <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                The tone stays restrained because the product is trying to create trust,
-                not borrow it. These are the practical questions the page should answer.
+                If your question is not answered here, call us at 888-368-2502 or submit
+                the form below and a representative will walk you through everything.
               </p>
             </div>
             <FAQAccordion items={faqItems} />
@@ -666,14 +666,14 @@ export function VaultPage() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,176,106,0.16),transparent_24%),linear-gradient(180deg,transparent,rgba(0,0,0,0.36))]" />
             <div className="relative grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
               <div>
-                <span className="section-kicker">CTA / lead capture</span>
+                <span className="section-kicker">Get started</span>
                 <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                  Enter the desk on purpose.
+                  Opt in for your presale consultation.
                 </h2>
                 <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                  If the system feels heavy, that is intentional. Serious access should feel
-                  consequential. Submit your request and the desk will route you through the
-                  correct lane.
+                  Submit your information below. A representative will contact you within
+                  one business day to walk you through the presale terms, royalty program,
+                  and answer any questions.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   {ctaSignals.map((signal) => (
@@ -688,11 +688,11 @@ export function VaultPage() {
                 <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/8 pb-5">
                   <div>
                     <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      Allocation intake
+                      Presale opt-in
                     </p>
-                    <p className="mt-2 text-xl text-white">Secure request terminal</p>
+                    <p className="mt-2 text-xl text-white">Request your consultation</p>
                   </div>
-                  <div className="data-pill">desk open</div>
+                  <div className="data-pill">now open</div>
                 </div>
                 <IntakeForm />
               </div>
@@ -709,9 +709,9 @@ export function VaultPage() {
           >
             <div className="text-left">
               <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                Access desk
+                Presale open
               </p>
-              <p className="mt-1 text-sm text-white">Request presale entry</p>
+              <p className="mt-1 text-sm text-white">Opt in now</p>
             </div>
             <span className="data-pill">enter</span>
           </motion.button>
@@ -749,12 +749,12 @@ export function VaultPage() {
                     Iron Vault Token
                   </p>
                   <p className="mt-3 font-display text-3xl tracking-[0.14em] text-white lg:text-5xl">
-                    System coming online
+                    Iron Vault Token
                   </p>
                 </div>
                 <div className="flex items-center gap-3 font-data text-[0.62rem] uppercase tracking-[0.32em] text-[#d4b06a]">
                   <span className="h-2 w-2 rounded-full bg-[#d4b06a] shadow-[0_0_20px_rgba(212,176,106,0.5)] [animation:pulse-glow_1.6s_ease-in-out_infinite]" />
-                  Security bands disengaging
+                  Presale loading
                 </div>
               </motion.div>
             </motion.div>

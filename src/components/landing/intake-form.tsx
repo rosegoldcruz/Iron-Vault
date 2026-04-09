@@ -12,18 +12,19 @@ type IntakeResponse = {
   error?: string;
 };
 
-const accessLanes = [
-  "Foundation lane",
-  "Strategic lane",
-  "Institutional lane",
+const callTimeOptions = [
+  "Morning (9am–12pm)",
+  "Afternoon (12pm–5pm)",
+  "Evening (5pm–8pm)",
 ];
 
 export function IntakeForm() {
   const [isPending, startTransition] = useTransition();
   const [response, setResponse] = useState<IntakeResponse | null>(null);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [wallet, setWallet] = useState("");
-  const [lane, setLane] = useState(accessLanes[0]);
+  const [phone, setPhone] = useState("");
+  const [callTime, setCallTime] = useState(callTimeOptions[0]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,14 +36,14 @@ export function IntakeForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, wallet, lane }),
+        body: JSON.stringify({ name, email, phone, callTime }),
       });
 
       const payload = (await request.json()) as IntakeResponse;
       setResponse(payload);
 
       if (request.ok) {
-        setWallet("");
+        setPhone("");
       }
     });
   }
@@ -52,60 +53,78 @@ export function IntakeForm() {
       <div className="grid gap-4 lg:grid-cols-2">
         <label className="input-shell cut-corners block px-4 py-3.5">
           <span className="font-data mb-2 block text-[0.66rem] uppercase tracking-[0.28em] text-white/42">
-            Contact channel
+            Full name
+          </span>
+          <input
+            className="form-field"
+            type="text"
+            placeholder="Your full name"
+            autoComplete="name"
+            required
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+        </label>
+        <label className="input-shell cut-corners block px-4 py-3.5">
+          <span className="font-data mb-2 block text-[0.66rem] uppercase tracking-[0.28em] text-white/42">
+            Email address
           </span>
           <input
             className="form-field"
             type="email"
-            placeholder="name@desk-domain.com"
+            placeholder="you@email.com"
             autoComplete="email"
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
         </label>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
         <label className="input-shell cut-corners block px-4 py-3.5">
           <span className="font-data mb-2 block text-[0.66rem] uppercase tracking-[0.28em] text-white/42">
-            Access lane
+            Phone number
+          </span>
+          <input
+            className="form-field"
+            type="tel"
+            placeholder="(555) 555-5555"
+            autoComplete="tel"
+            required
+            value={phone}
+            onChange={(event) => setPhone(event.target.value)}
+          />
+        </label>
+        <label className="input-shell cut-corners block px-4 py-3.5">
+          <span className="font-data mb-2 block text-[0.66rem] uppercase tracking-[0.28em] text-white/42">
+            Best time to call
           </span>
           <select
             className="form-field"
-            value={lane}
-            onChange={(event) => setLane(event.target.value)}
+            value={callTime}
+            onChange={(event) => setCallTime(event.target.value)}
           >
-            {accessLanes.map((accessLane) => (
-              <option key={accessLane} value={accessLane} className="bg-[#111112]">
-                {accessLane}
+            {callTimeOptions.map((option) => (
+              <option key={option} value={option} className="bg-[#111112]">
+                {option}
               </option>
             ))}
           </select>
         </label>
       </div>
 
-      <label className="input-shell cut-corners block px-4 py-3.5">
-        <span className="font-data mb-2 block text-[0.66rem] uppercase tracking-[0.28em] text-white/42">
-          Wallet routing
-        </span>
-        <input
-          className="form-field"
-          type="text"
-          placeholder="Optional wallet or secure contact handle"
-          value={wallet}
-          onChange={(event) => setWallet(event.target.value)}
-        />
-      </label>
-
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="font-data text-[0.66rem] uppercase tracking-[0.28em] text-white/42">
-            Desk commits to deliberate review, not auto-approval.
+            No commitment required to opt in.
           </p>
           <p className="mt-2 text-sm text-[rgba(245,239,229,0.62)]">
-            Requests are routed through the same allocation logic used to shape the launch.
+            A representative will contact you within one business day to review presale details.
           </p>
         </div>
         <MagneticButton type="submit" disabled={isPending} className="justify-center">
-          {isPending ? "Securing request" : "Request presale access"}
+          {isPending ? "Submitting..." : "Opt in for presale"}
         </MagneticButton>
       </div>
 
@@ -119,7 +138,7 @@ export function IntakeForm() {
           ? response.error
           : response?.message
             ? `${response.message} ${response.nextStep ?? ""}`
-            : "Operator queue is open for qualified requests."}
+            : "Presale consultation is open — submit your info above."}
       </motion.div>
     </form>
   );

@@ -41,69 +41,69 @@ export type FaqItem = {
 
 export const heroStats: HeroStat[] = [
   {
-    label: "Desk response",
-    value: "24h",
-    detail: "Every serious request enters a reviewed queue, not a public scramble.",
+    label: "Presale package",
+    value: "250K",
+    detail: "Each presale participant receives 250,000 Iron Vault Tokens at presale pricing.",
   },
   {
-    label: "Reserve discipline",
-    value: "38%",
-    detail: "Treasury allocation remains ring-fenced for runway, security, and launch stability.",
+    label: "Exchange launch",
+    value: "Nov 1",
+    detail: "IVT launches on multiple exchanges November 1, 2026. Presale closes before that date.",
   },
   {
-    label: "Unlock rhythm",
-    value: "8 / 12 / 24",
-    detail: "Release cadence is staged to preserve pressure control across launch phases.",
+    label: "Royalty distribution",
+    value: "24/7",
+    detail: "Opt-in royalty participants earn from every transaction on-chain, around the clock.",
   },
 ];
 
 export const tickerItems = [
-  "PHASE 01 // VERIFIED INTAKE",
-  "MULTISIG TREASURY LANE",
-  "CONSULT-LED ACCESS",
-  "STRUCTURED UNLOCK ARCHITECTURE",
-  "WHITE-GLOVE ONBOARDING",
-  "SECURITY REVIEW WINDOW // 24H",
+  "PRESALE NOW OPEN",
+  "250,000 TOKENS PER PACKAGE",
+  "EXCHANGE LAUNCH NOV 1 2026",
+  "ROYALTY PARTICIPATION AVAILABLE",
+  "REAL-WORLD ASSET ROADMAP",
+  "COMMON WEALTH VENTURES LLC",
 ];
 
 export const architectureCards: DetailCard[] = [
   {
-    eyebrow: "Structured Access",
-    title: "Iron Vault Token is a presale system, not a public stampede.",
-    body: "Every allocation request enters through a private desk workflow. Intent is qualified, lane placement is deliberate, and access is earned before capital moves.",
-    metric: "ACCESS // CONTROLLED",
+    eyebrow: "Utility Token",
+    title: "IVT is the transactional and participation layer of the Common Wealth Ventures platform.",
+    body: "Iron Vault Token facilitates participation within the ecosystem, supports community growth, and enables royalty-based participation tied to platform trading activity.",
+    metric: "UTILITY // DEFINED",
   },
   {
-    eyebrow: "Treasury Discipline",
-    title: "Supply management is designed to survive attention, not just attract it.",
-    body: "Operating float, reserve holdings, and launch liquidity sit in separate layers so the project can respond with precision under pressure instead of improvisation.",
-    metric: "TREASURY // RING-FENCED",
+    eyebrow: "Royalty Program",
+    title: "Opt in and get paid 24/7 on every transaction with Iron Vault Token.",
+    body: "Participants who enroll in the royalty program receive a share of platform trading volume fees, distributed automatically on-chain. This creates ongoing passive income from trading activity.",
+    metric: "ROYALTIES // ON-CHAIN",
   },
   {
-    eyebrow: "Release Architecture",
-    title: "Momentum is staged through sequence, not noise.",
-    body: "Unlocks, access windows, and operator checkpoints are pre-planned to keep the launch narrative coherent while preserving trust with long-horizon participants.",
-    metric: "RELEASE // PHASED",
+    eyebrow: "Real-World Assets",
+    title: "Building toward a stablecoin backed by commercial real estate holdings.",
+    body: "The long-term roadmap includes acquiring commercial properties — shopping centers, gas stations, franchise locations — to support a sister stablecoin anchored in real economic activity.",
+    metric: "RWA // ROADMAP",
   },
 ];
 
 export const whyCards: DetailCard[] = [
   {
-    eyebrow: "Signal",
-    title: "Weak attention wants instant access. Serious capital respects friction.",
-    body: "Iron Vault uses controlled entry to filter noise, anchor conviction, and establish tone before speculation dilutes the room.",
+    eyebrow: "Early Access",
+    title: "The presale is the earliest point of entry. There is no second chance at presale pricing.",
+    body: "Once the allocation fills or the exchange launches November 1, 2026, presale pricing ends permanently. After that, IVT is only available at public market price.",
     metric: "01",
   },
   {
-    eyebrow: "Authority",
-    title: "Clarity replaces theatre when structure is visible.",
-    body: "The experience exposes process, reserve logic, and operator intent so trust is felt as an operating standard rather than a promise.",
+    eyebrow: "Real Ecosystem",
+    title: "IVT has a defined role in a real, operating ecosystem — not just a speculative ticker.",
+    body: "Common Wealth Ventures is building a platform where blockchain infrastructure funds real-world asset acquisition, creating tangible value behind the token.",
     metric: "02",
   },
   {
-    eyebrow: "Continuity",
-    title: "The launch should still feel controlled after demand arrives.",
-    body: "Every system layer is designed to keep the project stable when traffic, attention, and expectation all spike at once.",
+    eyebrow: "Generational Wealth",
+    title: "Royalty income from trading volume creates life-changing and generational income.",
+    body: "When the token launches on exchanges, transaction volume drives royalty distributions to opted-in participants — creating passive income for you and your family.",
     metric: "03",
   },
 ];
@@ -111,165 +111,165 @@ export const whyCards: DetailCard[] = [
 export const processSteps: ProcessStep[] = [
   {
     id: "01",
-    label: "Register intent",
-    title: "Submit a desk-grade access request.",
-    body: "Prospective participants provide capital profile, preferred lane, and wallet routing details through a narrow intake path built for serious buyers.",
-    note: "Initial qualification and routing",
+    label: "Opt in",
+    title: "Submit your information to receive presale details.",
+    body: "Fill out a short form with your name, phone, and email. No commitment and no payment required. A representative will reach out to walk you through everything.",
+    note: "Takes 60 seconds",
   },
   {
     id: "02",
-    label: "Review",
-    title: "Allocation logic is applied before invitations move.",
-    body: "The desk reviews concentration, timing fit, and operational readiness so allocations serve launch stability instead of vanity volume.",
-    note: "Lane placement and confirmation",
+    label: "Consultation",
+    title: "Speak with a real representative about the opportunity.",
+    body: "A trained Common Wealth Ventures representative contacts you within one business day. The call is informational — we answer your questions first and explain the presale terms.",
+    note: "Within 1 business day",
   },
   {
     id: "03",
-    label: "Onboard",
-    title: "Wallet readiness and security posture are cleared.",
-    body: "Qualified participants receive a guided onboarding path covering settlement instructions, access timing, and support channels before the window opens.",
-    note: "Security and settlement checks",
+    label: "Review",
+    title: "Understand token allocation, royalties, and the exchange roadmap.",
+    body: "We walk you through presale pricing, the royalty participation model, the November 1st exchange launch timeline, and the real-world asset roadmap. You decide if it is right for you.",
+    note: "Full details disclosed",
   },
   {
     id: "04",
-    label: "Activate",
-    title: "Vault access opens on sequenced terms.",
-    body: "Confirmed participants enter the presale through a controlled activation window tied to the release schedule, not a race condition.",
-    note: "Final allocation execution",
+    label: "Secure tokens",
+    title: "Lock in your presale allocation before the window closes.",
+    body: "If you choose to proceed, we guide you through the onboarding process step by step. Your 250,000 tokens are registered and your position is secured before the exchange opens.",
+    note: "Position locked",
   },
 ];
 
 export const moduleCards: ModuleCard[] = [
   {
-    eyebrow: "Launch Timing",
-    title: "Three timed gates keep the market narrative coherent.",
-    body: "Desk review opens on 09 May. Allocation confirmations lock across a fourteen-day presale band. Vault activation follows security sign-off and treasury sync.",
-    metric: "T-21 / T-7 / T+0",
+    eyebrow: "Three-Phase Roadmap",
+    title: "Community launch, asset acquisition, and stablecoin — all mapped out.",
+    body: "Phase 1 builds the founding community at $0.001 presale pricing. Phase 2 generates revenue through trading volume and acquires commercial real estate. Phase 3 launches the stablecoin backed by those assets.",
+    metric: "3 // PHASES",
     desktopClassName: "lg:col-span-2 lg:row-span-2",
   },
   {
     eyebrow: "Consultation Process",
-    title: "Every serious allocation can route through a human desk.",
-    body: "Private consultation is available for strategic wallets, family office allocations, and operators who need structured support before committing.",
-    metric: "1:1 // DESK",
+    title: "Every participant speaks with a real person before committing.",
+    body: "No bots, no automated funnels. A live representative explains the presale, answers your questions, and makes sure you have the full picture before any decision.",
+    metric: "1:1 // HUMAN",
     desktopClassName: "lg:col-span-2",
   },
   {
     eyebrow: "Ecosystem Layers",
-    title: "Treasury, access, governance, and partner rails stay isolated by design.",
-    body: "The architecture separates execution concerns so no single attention spike compromises treasury judgement or operational continuity.",
+    title: "Utility token, royalty program, real estate assets, and stablecoin.",
+    body: "Each layer of the ecosystem serves a specific purpose — from community participation to asset-backed currency — creating long-term value across the entire platform.",
     metric: "4 // LAYERS",
     desktopClassName: "lg:col-span-1",
   },
   {
     eyebrow: "Royalty Model",
-    title: "Secondary activity routes value back into resilience.",
-    body: "A 2.5% royalty stream is reserved for treasury reinforcement, security maintenance, and high-touch participant operations where applicable.",
-    metric: "2.5% // ROUTED",
+    title: "Earn from every transaction on the platform, automatically.",
+    body: "The royalty program distributes a share of trading volume fees to opted-in participants. Distributions run on-chain, 24/7. Details are reviewed during your consultation call.",
+    metric: "24/7 // PASSIVE",
     desktopClassName: "lg:col-span-1",
   },
   {
-    eyebrow: "Presale Access",
-    title: "Foundation, Strategic, and Institutional lanes keep entry calibrated.",
-    body: "Different access tiers allow the desk to protect concentration, sequence approvals, and maintain room for aligned long-term holders.",
-    metric: "3 // LANES",
+    eyebrow: "Presale Tiers",
+    title: "Presale packages are available through direct consultation only.",
+    body: "250,000 tokens per presale package at $0.001 per token. Allocation is first-come, first-consulted. The presale closes when supply fills or the exchange launches.",
+    metric: "250K // TOKENS",
     desktopClassName: "lg:col-span-2",
   },
   {
-    eyebrow: "Security / Support / Onboarding",
-    title: "Operational transparency is built into the journey.",
-    body: "From wallet hygiene to post-allocation support, the onboarding layer is designed to reduce avoidable errors without diluting the premium feel.",
-    metric: "24H // SUPPORT",
+    eyebrow: "Referral Program",
+    title: "Refer others and earn 10% commission on everything they invest.",
+    body: "Anyone you refer to Common Wealth Ventures earns you a 10% commission paid within 24 hours. This applies to anything they ever spend with the company, even years down the line.",
+    metric: "10% // COMMISSION",
     desktopClassName: "lg:col-span-2",
   },
 ];
 
 export const trustMetrics = [
-  { label: "Allocation review", value: "Manual + ruleset" },
-  { label: "Custody posture", value: "Multisig routed" },
-  { label: "Support lane", value: "Operator led" },
-  { label: "Launch sequencing", value: "Three checkpoints" },
+  { label: "Entity", value: "US registered LLC" },
+  { label: "Contact", value: "888-368-2502" },
+  { label: "Launch date", value: "November 1, 2026" },
+  { label: "Consultation", value: "Live human reps" },
 ];
 
 export const trustPanels: TrustPanel[] = [
   {
-    eyebrow: "Operating Dossier",
-    title: "Trust is presented as procedure, not marketing copy.",
-    body: "Iron Vault exposes the logic behind its launch stack so sophisticated buyers can judge the system as an operator would.",
+    eyebrow: "Registered Entity",
+    title: "Common Wealth Ventures LLC is a registered US company.",
+    body: "We operate as a legitimate business entity based in Peoria, Arizona. Our team is reachable by phone at 888-368-2502 any time.",
     points: [
-      "Capital intake reviewed before allocation release",
-      "Treasury, reserve, and liquidity layers separated",
-      "Security sign-off gates tied to launch timing",
+      "Registered limited liability company",
+      "US-based operations out of Peoria, AZ",
+      "Direct phone line staffed by real people",
     ],
   },
   {
-    eyebrow: "Structure",
-    title: "The launch stack is engineered for composure under demand.",
-    body: "Legal sequence, treasury process, and support responsibilities are visible up front to reduce ambiguity when the room gets crowded.",
+    eyebrow: "Transparent Process",
+    title: "All presale terms are disclosed before any commitment.",
+    body: "Royalty mechanics, distribution methods, and opt-in processes are reviewed in full on every consultation call. Nothing is hidden behind fine print.",
     points: [
-      "Entity and documentation track prepared in parallel",
-      "Operator access limited by role and phase",
-      "Support path remains active through activation",
+      "Royalty terms explained on every call",
+      "No pressure — you decide if and when to proceed",
+      "Follow-up support available through activation",
     ],
   },
   {
-    eyebrow: "Launch Rails",
-    title: "Timing, approvals, and participant experience stay synchronized.",
-    body: "The same choreography that shapes the page also shapes the operational flow: review, confirm, onboard, activate.",
+    eyebrow: "Published Timeline",
+    title: "November 1, 2026 exchange launch across multiple platforms.",
+    body: "The roadmap is public and the presale has a defined end. All participants receive direct communication about exchange listing updates and milestones.",
     points: [
-      "Phase windows are fixed before public movement",
-      "Desk support remains available during settlement",
-      "Post-activation updates follow a predictable cadence",
+      "Exchange partnerships being finalized",
+      "Presale participants notified of all updates",
+      "Predictable milestone cadence through launch",
     ],
   },
 ];
 
 export const operatingRoles = [
   {
-    title: "Capital Desk",
-    body: "Routes serious interest into the right access lane and keeps allocation logic defensible.",
+    title: "Presale Support",
+    body: "Guides you through the opt-in process, answers questions, and ensures you understand every detail before proceeding.",
   },
   {
-    title: "Treasury Control",
-    body: "Protects reserve posture, liquidity sequencing, and operational runway across phases.",
+    title: "Royalty Program",
+    body: "Explains the royalty participation model, distribution mechanics, and how to opt in for 24/7 passive income from trading volume.",
   },
   {
-    title: "Security Support",
-    body: "Guides onboarding, wallet readiness, and participant handling through launch execution.",
+    title: "Onboarding",
+    body: "Walks you through securing your token allocation, account setup, and everything you need before the November exchange launch.",
   },
 ];
 
 export const faqItems: FaqItem[] = [
   {
-    question: "Is Iron Vault Token positioned as a public memecoin launch?",
+    question: "What exactly is Iron Vault Token?",
     answer:
-      "No. The brand is built around controlled access, operational seriousness, and a staged launch experience designed for participants who value process over spectacle.",
+      "Iron Vault Token (IVT) is the utility and transactional layer of the Common Wealth Ventures ecosystem. It facilitates participation within the platform, supports community growth, and enables royalty-based participation tied to trading activity. It has a defined functional role — not just a speculative ticker.",
   },
   {
-    question: "Why use a consultation-led presale instead of open access?",
+    question: "Why do I need to get on a call? Why can't I just buy tokens online?",
     answer:
-      "Because open access optimizes for speed, not quality. A consultation-led lane allows concentration control, cleaner onboarding, and a more stable release sequence.",
+      "The presale is structured through consultation by design. Token participation involves a real financial decision, and we believe people make better decisions when they understand what they're participating in. The call is informational — not a sales pitch. After November 1, 2026, tokens will be publicly available on exchanges.",
   },
   {
-    question: "How does the presale flow protect participants?",
+    question: "How does the royalty program work?",
     answer:
-      "Requests are reviewed before allocations are issued, onboarding guidance is provided before settlement, and the launch window is sequenced rather than left to chaos.",
+      "The royalty program is an opt-in feature tied to transaction volume on the IVT platform. Participants who enroll receive an allocation from the trading fee pool, distributed automatically on-chain 24/7. The exact mechanics — rates, distribution frequency, and enrollment — are reviewed in full on your consultation call.",
   },
   {
-    question: "Can smaller participants still request access?",
+    question: "Is this risky? What is the worst-case scenario?",
     answer:
-      "Yes. The system includes multiple access lanes so intent can be assessed relative to fit, timing, and operational readiness rather than raw size alone.",
+      "All digital asset participation carries risk. The worst case is that the exchange launch is delayed or the token does not perform as intended. We are not licensed financial advisors and cannot predict performance. The project has a registered entity, a real team, an active call center, and a published roadmap. Only participate with capital you can afford to risk.",
   },
   {
-    question: "What happens after I submit the intake form?",
+    question: "What happens after I submit the form?",
     answer:
-      "Your request enters the desk queue, the preferred access lane is reviewed, and you receive the next instruction set once the operating team clears the request.",
+      "You will receive a confirmation email shortly after submitting. A representative will contact you by phone within one business day at your preferred time window. The first call is typically 10 to 20 minutes. No obligation if you are not ready to decide.",
   },
 ];
 
 export const ctaSignals = [
-  "Private desk review",
-  "Structured lane assignment",
-  "Guided onboarding",
-  "Sequenced activation",
+  "250,000 presale tokens",
+  "Royalty participation",
+  "Exchange launch Nov 1, 2026",
+  "888-368-2502",
 ];
