@@ -117,14 +117,14 @@ export function IntakeForm() {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="font-data text-[0.66rem] uppercase tracking-[0.28em] text-white/42">
-            No commitment required to opt in.
+            No payment. No commitment. Just your info.
           </p>
           <p className="mt-2 text-sm text-[rgba(245,239,229,0.62)]">
-            A representative will contact you within one business day to review presale details.
+            We call you within 24 hours. If it&apos;s not for you, no hard feelings.
           </p>
         </div>
         <MagneticButton type="submit" disabled={isPending} className="justify-center">
-          {isPending ? "Submitting..." : "Opt in for presale"}
+          {isPending ? "Locking your spot..." : "Claim my spot now"}
         </MagneticButton>
       </div>
 
@@ -138,7 +138,7 @@ export function IntakeForm() {
           ? response.error
           : response?.message
             ? `${response.message} ${response.nextStep ?? ""}`
-            : "Presale consultation is open — submit your info above."}
+            : "Spots are limited — drop your info above and we’ll call you within 24 hours."}
       </motion.div>
     </form>
   );
