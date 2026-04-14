@@ -1,765 +1,326 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import {
-  AnimatePresence,
   MotionConfig,
   motion,
-  useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
-  useScroll,
   useSpring,
   useTransform,
+  useReducedMotion,
 } from "framer-motion";
 
-import {
-  architectureCards,
-  ctaSignals,
-  faqItems,
-  heroStats,
-  moduleCards,
-  operatingRoles,
-  processSteps,
-  tickerItems,
-  trustMetrics,
-  trustPanels,
-  whyCards,
-} from "./content";
-import { FAQAccordion } from "./faq-accordion";
-import { IntakeForm } from "./intake-form";
-import { MagneticButton } from "./magnetic-button";
-import { useVaultScroll } from "./use-vault-scroll";
 import { VaultMark } from "./vault-mark";
 
-const heroEase = [0.16, 1, 0.3, 1] as const;
-const panelEase = [0.76, 0, 0.24, 1] as const;
+const entryEase = [0.22, 1, 0.36, 1] as const;
 
-const headlineLines = [
-  "250,000 tokens. $0.001 each.",
-  "This window doesn't stay open.",
+const phases = [
+  {
+    title: "Pre-sale",
+    description:
+      "Early access plus guided learning modules so members understand the ecosystem before taking action.",
+  },
+  {
+    title: "Real Estate Integration",
+    description:
+      "Real-world asset education and participation designed to make complex markets understandable and approachable.",
+  },
+  {
+    title: "Stablecoin",
+    description:
+      "The final layer of the ecosystem, focused on long-term stability, practical utility, and informed participation.",
+  },
 ];
 
-const navItems = [
-  { label: "The opportunity", href: "#what" },
-  { label: "Why now", href: "#why" },
-  { label: "How it works", href: "#process" },
-  { label: "Proof", href: "#proof" },
-  { label: "FAQ", href: "#faq" },
+const educationModules = [
+  "Real estate fundamentals for digital investors",
+  "How tokenization works from issuance to utility",
+  "Stablecoin mechanics, risks, and long-term strategy",
+  "How to evaluate opportunities with discipline",
 ];
 
-const shutterPlateClassNames = ["left-0 w-1/4", "left-1/4 w-1/4", "left-2/4 w-1/4", "left-3/4 w-1/4"];
-
-const whyCardPositionClassNames = [
-  "lg:left-0 lg:top-0",
-  "lg:right-0 lg:top-[7.5rem]",
-  "lg:bottom-0 lg:left-[4.375rem]",
+const heroCoins = [
+  { id: "sol", symbol: "◎", x: "16%", y: "9%", size: 130, delay: 0.12, drift: 8, spin: -3 },
+  { id: "ivt", symbol: "IVT", x: "42%", y: "2%", size: 112, delay: 0.28, drift: 10, spin: 4 },
+  { id: "vault", symbol: "V", x: "65%", y: "14%", size: 120, delay: 0.44, drift: 7, spin: -2 },
+  { id: "sig", symbol: "S", x: "79%", y: "4%", size: 94, delay: 0.58, drift: 9, spin: 3 },
 ];
+
+function GoldCoin({ symbol, size }: { symbol: string; size: number }) {
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <div className="absolute inset-0 rounded-full bg-[conic-gradient(from_228deg,_#886621,_#f6df95_17%,_#987129_35%,_#f8e6ad_54%,_#7f5f1d_75%,_#e9cf83)] shadow-[0_14px_34px_rgba(0,0,0,0.5),0_0_34px_rgba(153,69,255,0.2)]" />
+      <div className="absolute inset-[7%] rounded-full bg-[radial-gradient(72%_70%_at_30%_24%,rgba(255,248,218,0.95)_0%,rgba(232,197,112,0.88)_34%,rgba(145,101,26,0.94)_74%,rgba(67,42,9,0.98)_100%)]" />
+      <div className="absolute inset-[11%] rounded-full border border-white/18 bg-[radial-gradient(62%_62%_at_36%_24%,rgba(255,255,255,0.28)_0%,transparent_58%)]" />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="select-none text-[clamp(1rem,2vw,1.4rem)] font-semibold tracking-[-0.015em] text-white/88 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
+          {symbol}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export function VaultPage() {
   const rootRef = useRef<HTMLElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
-  const [booted, setBooted] = useState(Boolean(reduceMotion));
 
-  const cardRotateX = useSpring(0, { stiffness: 130, damping: 18, mass: 0.95 });
-  const cardRotateY = useSpring(0, { stiffness: 130, damping: 18, mass: 0.95 });
-  const glowX = useMotionValue(50);
-  const glowY = useMotionValue(50);
-  const heroGlow = useMotionTemplate`radial-gradient(circle at ${glowX}% ${glowY}%, rgba(240,207,134,0.24), transparent 44%)`;
+  const mouseX = useMotionValue(50);
+  const mouseY = useMotionValue(42);
+  const glowX = useSpring(mouseX, { stiffness: 24, damping: 22, mass: 1.15 });
+  const glowY = useSpring(mouseY, { stiffness: 24, damping: 22, mass: 1.15 });
 
-  useVaultScroll(rootRef);
-
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  const heroLift = useTransform(scrollYProgress, [0, 1], [0, -90]);
-  const heroGridShift = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.3]);
+  const glowLeft = useTransform(glowX, (value) => `${value}%`);
+  const glowTop = useTransform(glowY, (value) => `${value}%`);
 
   useEffect(() => {
-    if (reduceMotion) {
-      setBooted(true);
-      return;
-    }
+    const handlePointer = (event: PointerEvent) => {
+      const root = rootRef.current;
+      if (!root) return;
 
-    const timeout = window.setTimeout(() => {
-      setBooted(true);
-    }, 1700);
+      const rect = root.getBoundingClientRect();
+      const localX = ((event.clientX - rect.left) / rect.width) * 100;
+      const localY = ((event.clientY - rect.top) / rect.height) * 100;
 
-    return () => window.clearTimeout(timeout);
-  }, [reduceMotion]);
-
-  useEffect(() => {
-    const root = rootRef.current;
-
-    if (!root) {
-      return;
-    }
-
-    let frame = 0;
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (frame) {
-        cancelAnimationFrame(frame);
-      }
-
-      frame = requestAnimationFrame(() => {
-        root.style.setProperty("--pointer-x", `${(event.clientX / window.innerWidth) * 100}%`);
-        root.style.setProperty("--pointer-y", `${(event.clientY / window.innerHeight) * 100}%`);
-      });
+      mouseX.set(Math.max(0, Math.min(100, localX)));
+      mouseY.set(Math.max(0, Math.min(100, localY)));
     };
 
-    window.addEventListener("pointermove", handlePointerMove);
-
-    return () => {
-      if (frame) {
-        cancelAnimationFrame(frame);
-      }
-      window.removeEventListener("pointermove", handlePointerMove);
-    };
-  }, []);
-
-  function handleCardPointerMove(event: React.PointerEvent<HTMLDivElement>) {
-    const bounds = event.currentTarget.getBoundingClientRect();
-    const localX = event.clientX - bounds.left;
-    const localY = event.clientY - bounds.top;
-    const centerX = bounds.width / 2;
-    const centerY = bounds.height / 2;
-
-    cardRotateX.set(-((localY - centerY) / centerY) * 6.5);
-    cardRotateY.set(((localX - centerX) / centerX) * 8.5);
-    glowX.set((localX / bounds.width) * 100);
-    glowY.set((localY / bounds.height) * 100);
-  }
-
-  function handleCardPointerLeave() {
-    cardRotateX.set(0);
-    cardRotateY.set(0);
-    glowX.set(50);
-    glowY.set(50);
-  }
-
-  function scrollToIntake() {
-    document.getElementById("intake")?.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
-      block: "start",
-    });
-  }
+    window.addEventListener("pointermove", handlePointer);
+    return () => window.removeEventListener("pointermove", handlePointer);
+  }, [mouseX, mouseY]);
 
   return (
     <MotionConfig reducedMotion="user">
-      <main ref={rootRef} className="vault-shell relative overflow-hidden">
-        <header className="fixed inset-x-0 top-0 z-40 border-b border-white/8 bg-[rgba(6,6,6,0.56)] backdrop-blur-xl">
-          <div className="mx-auto flex max-w-[90rem] items-center justify-between px-4 py-4 lg:px-8">
-            <a href="#top" className="flex items-center gap-3">
-              <VaultMark className="h-11 w-11" />
+      <main ref={rootRef} className="relative overflow-hidden bg-[#05030b] text-white">
+        <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-[rgba(6,5,12,0.6)] backdrop-blur-xl">
+          <div className="mx-auto flex max-w-[90rem] items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
+            <a href="#hero" className="flex items-center gap-3">
+              <VaultMark className="h-10 w-10" />
               <div>
-                <p className="font-display text-lg uppercase tracking-[0.24em] text-white/92">
-                  Iron Vault
-                </p>
-                <p className="font-data text-[0.62rem] uppercase tracking-[0.32em] text-white/40">
-                  Presale closing soon
-                </p>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/95">Iron Vault</p>
+                <p className="text-[0.62rem] uppercase tracking-[0.28em] text-white/48">Education-first ecosystem</p>
               </div>
             </a>
-            <nav className="hidden items-center gap-6 lg:flex">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="font-data text-[0.66rem] uppercase tracking-[0.32em] text-white/46 transition-colors duration-300 hover:text-white"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-            <MagneticButton href="#intake" className="hidden lg:inline-flex">
-              Get your tokens
-            </MagneticButton>
+            <div className="flex items-center gap-3">
+              <a
+                href="#community"
+                className="rounded-full border border-white/20 bg-white/[0.04] px-4 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-white/84 transition-colors duration-300 hover:bg-white/[0.08]"
+              >
+                Join the Community
+              </a>
+            </div>
           </div>
         </header>
 
         <section
-          id="top"
-          ref={heroRef}
-          className="relative flex min-h-screen items-end overflow-hidden pt-24"
+          id="hero"
+          className="relative isolate min-h-screen overflow-hidden px-6 pb-16 pt-28 sm:px-10 lg:px-16 xl:px-20"
         >
-          <motion.div style={{ y: heroGridShift }} className="vault-grid absolute inset-0 opacity-30" />
-          <motion.div
-            style={{ y: heroLift, opacity: heroOpacity }}
-            className="absolute inset-x-[12%] top-[12%] h-[28rem] rounded-full bg-[radial-gradient(circle,rgba(212,176,106,0.14),transparent_56%)] blur-3xl"
-          />
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(180deg,transparent,rgba(6,6,6,0.94))]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(140%_120%_at_10%_10%,rgba(153,69,255,0.22)_0%,rgba(7,5,12,0.94)_50%,#05030b_100%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(108deg,rgba(153,69,255,0.08),transparent_42%,rgba(20,241,149,0.06)_80%,transparent)]" />
+          <div className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(rgba(255,255,255,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.2)_1px,transparent_1px)] [background-size:74px_74px]" />
 
-          <div className="vault-section grid min-h-[calc(100svh-6rem)] items-center gap-12 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20">
-            <div className="relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 1.05, ease: heroEase }}
-                className="section-kicker"
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute z-0 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+            style={{
+              left: glowLeft,
+              top: glowTop,
+              background:
+                "radial-gradient(circle, rgba(153,69,255,0.2), rgba(20,241,149,0.08) 34%, transparent 68%)",
+            }}
+          />
+
+          <div className="relative z-10 mx-auto grid min-h-[calc(100svh-7rem)] max-w-[1380px] items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
+            <div className="max-w-[700px]">
+              <motion.h1
+                initial={{ opacity: 0, y: 26, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, amount: 0.7 }}
+                transition={{ duration: 1.05, ease: entryEase }}
+                className="text-[clamp(2.6rem,7.8vw,6.2rem)] font-semibold leading-[0.9] tracking-[-0.045em] text-white"
               >
-                Limited presale — act now
-              </motion.div>
-              <div className="mt-6 max-w-4xl space-y-2">
-                {headlineLines.map((line, index) => (
-                  <span key={line} className="headline-mask block">
-                    <motion.span
-                      initial={{ y: "115%", filter: "blur(14px)" }}
-                      animate={{ y: 0, filter: "blur(0px)" }}
-                      transition={{ duration: 1.1, delay: 1.15 + index * 0.12, ease: heroEase }}
-                      className="font-display block text-[clamp(3.2rem,8vw,7.4rem)] leading-[0.9] tracking-[-0.04em] text-white"
-                    >
-                      {line}
-                    </motion.span>
-                  </span>
-                ))}
-              </div>
+                Iron Vault Token - Access the Future
+              </motion.h1>
+
               <motion.p
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 1.45, ease: heroEase }}
-                className="mt-8 max-w-2xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg"
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.7 }}
+                transition={{ duration: 0.95, delay: 0.14, ease: entryEase }}
+                className="mt-7 max-w-[38rem] text-[clamp(1rem,1.75vw,1.28rem)] leading-relaxed text-white/70"
               >
-                You&apos;re looking at 250,000 tokens at a tenth of a penny each —
-                before Iron Vault Token hits exchanges on November 1, 2026. Once
-                this presale fills, there is no second round. Opt in below, talk
-                to a real person, and decide if this is for you.
+                Education. Community. Long-term vision. Built in three phases.
+              </motion.p>
+
+              <motion.p
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.7 }}
+                transition={{ duration: 0.95, delay: 0.22, ease: entryEase }}
+                className="mt-5 max-w-[40rem] text-base leading-8 text-white/56"
+              >
+                We are building something legendary. Come learn with us. Speak to a real person.
               </motion.p>
 
               <motion.div
-                initial={{ opacity: 0, y: 26 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.85, delay: 1.58, ease: heroEase }}
-                className="mt-10 flex flex-col gap-4 sm:flex-row"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.7 }}
+                transition={{ duration: 0.92, delay: 0.3, ease: entryEase }}
+                className="mt-10 flex flex-wrap items-center gap-4"
               >
-                <MagneticButton href="#intake">Claim your spot now</MagneticButton>
-                <MagneticButton href="#proof" variant="ghost">
-                  See why people trust us
-                </MagneticButton>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.85, delay: 1.68, ease: heroEase }}
-                className="mt-12 grid gap-4 md:grid-cols-3"
-              >
-                {heroStats.map((item) => (
-                  <article key={item.label} className="metric-chip cut-corners px-5 py-5">
-                    <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      {item.label}
-                    </p>
-                    <p className="mt-4 font-data text-3xl text-[#f4d89e] lg:text-[2.3rem]">
-                      {item.value}
-                    </p>
-                    <p className="mt-3 text-sm leading-6 text-[rgba(245,239,229,0.64)]">
-                      {item.detail}
-                    </p>
-                  </article>
-                ))}
+                <a
+                  href="#community"
+                  className="rounded-full bg-white px-7 py-3.5 text-sm font-medium tracking-[-0.01em] text-[#0b0916] shadow-[0_8px_28px_rgba(255,255,255,0.14)] transition-colors duration-300 hover:bg-[#f2efff]"
+                >
+                  Join the Community
+                </a>
+                <a
+                  href="#representative"
+                  className="rounded-full border border-white/20 bg-white/[0.03] px-7 py-3.5 text-sm font-medium tracking-[-0.01em] text-white/84 backdrop-blur-md transition-all duration-300 hover:border-white/35 hover:bg-white/[0.08]"
+                >
+                  Speak to a Representative
+                </a>
               </motion.div>
             </div>
 
-            <motion.div style={{ y: heroLift }} className="relative z-10">
-              <motion.div
-                onPointerMove={handleCardPointerMove}
-                onPointerLeave={handleCardPointerLeave}
-                style={{
-                  rotateX: cardRotateX,
-                  rotateY: cardRotateY,
-                  transformStyle: "preserve-3d",
-                }}
-                className="section-frame hero-shadow cut-corners panel-outline relative mx-auto max-w-[34rem] p-5 lg:p-7"
-              >
+            <motion.div
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ duration: 1.1, delay: 0.2, ease: entryEase }}
+              className="relative mx-auto h-[510px] w-full max-w-[620px] lg:h-[600px]"
+            >
+              <div className="absolute -left-6 top-[10%] h-[430px] w-[138px] rotate-[22deg] rounded-[999px] bg-[linear-gradient(180deg,rgba(183,130,255,0.8),rgba(153,69,255,0.66)_34%,rgba(67,24,126,0.78)_76%,rgba(20,241,149,0.26)_100%)] shadow-[0_0_70px_rgba(153,69,255,0.28),0_0_18px_rgba(20,241,149,0.16),inset_-14px_0_22px_rgba(0,0,0,0.36),inset_10px_0_16px_rgba(255,255,255,0.1)]" />
+              <div className="absolute -right-8 top-[16%] h-[460px] w-[150px] -rotate-[17deg] rounded-[999px] bg-[linear-gradient(180deg,rgba(191,151,255,0.78),rgba(153,69,255,0.62)_32%,rgba(75,31,140,0.82)_74%,rgba(20,241,149,0.29)_100%)] shadow-[0_0_75px_rgba(153,69,255,0.3),0_0_20px_rgba(20,241,149,0.18),inset_-14px_0_24px_rgba(0,0,0,0.35),inset_10px_0_16px_rgba(255,255,255,0.11)]" />
+
+              <div className="absolute left-[13%] top-[18%] h-[320px] w-[74%] rounded-[3rem] bg-[radial-gradient(72%_56%_at_50%_35%,rgba(153,69,255,0.28)_0%,rgba(20,241,149,0.08)_45%,transparent_78%)] blur-3xl" />
+
+              {heroCoins.map((coin) => (
                 <motion.div
-                  style={{ background: heroGlow }}
-                  className="pointer-events-none absolute inset-0 opacity-80"
-                />
-                <div className="absolute inset-0 metal-hatch opacity-45" />
-                <div className="absolute right-5 top-5 data-pill hidden lg:inline-flex">
-                  Filling fast
-                </div>
-                <div className="relative grid gap-6 lg:grid-cols-[0.78fr_1fr]">
-                  <div className="flex flex-col justify-between gap-6">
-                    <div>
-                      <p className="font-data text-[0.62rem] uppercase tracking-[0.32em] text-white/42">
-                        IVT emblem
-                      </p>
-                      <motion.div
-                        className="mt-5"
-                        animate={
-                          reduceMotion
-                            ? undefined
-                            : {
-                                y: [0, -10, 0],
-                                rotateZ: [0, 2, 0],
-                              }
-                        }
-                        transition={{
-                          duration: 8,
-                          repeat: Number.POSITIVE_INFINITY,
-                          ease: "easeInOut",
-                        }}
-                        drag={!reduceMotion}
-                        dragConstraints={{ top: -12, bottom: 12, left: -12, right: 12 }}
-                        dragElastic={0.08}
-                      >
-                        <VaultMark className="mx-auto h-48 w-48 lg:h-56 lg:w-56" />
-                      </motion.div>
-                    </div>
-                    <div className="data-pill w-fit">Limited allocation</div>
-                  </div>
+                  key={coin.id}
+                  className="absolute z-10"
+                  style={{ left: coin.x, top: coin.y }}
+                  initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{ duration: 1, delay: coin.delay, ease: entryEase }}
+                >
+                  <motion.div
+                    animate={
+                      reduceMotion
+                        ? undefined
+                        : {
+                            y: [0, -coin.drift, 0],
+                            rotateZ: [0, coin.spin, 0],
+                          }
+                    }
+                    transition={{
+                      duration: 14 + coin.delay * 4,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <GoldCoin symbol={coin.symbol} size={coin.size} />
+                  </motion.div>
+                </motion.div>
+              ))}
 
-                  <div className="space-y-4">
-                    <div className="panel-surface cut-corners p-5">
-                      <div className="flex items-center justify-between gap-4 border-b border-white/8 pb-4">
-                        <div>
-                          <p className="font-data text-[0.62rem] uppercase tracking-[0.32em] text-white/42">
-                            Your presale
-                          </p>
-                          <p className="mt-2 text-xl tracking-[0.02em] text-white">
-                            What you get
-                          </p>
-                        </div>
-                        <div className="data-pill">live</div>
-                      </div>
-                      <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                        <div className="rounded-[1.15rem] border border-white/8 bg-white/[0.025] p-4">
-                          <p className="font-data text-[0.58rem] uppercase tracking-[0.3em] text-white/40">
-                            Presale price
-                          </p>
-                          <p className="mt-3 font-data text-2xl text-[#f0cf86]">$0.001</p>
-                        </div>
-                        <div className="rounded-[1.15rem] border border-white/8 bg-white/[0.025] p-4">
-                          <p className="font-data text-[0.58rem] uppercase tracking-[0.3em] text-white/40">
-                            Per package
-                          </p>
-                          <p className="mt-3 font-data text-2xl text-white">250K tokens</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="panel-surface cut-corners p-5">
-                      <p className="font-data text-[0.62rem] uppercase tracking-[0.32em] text-white/42">
-                        Why people are opting in
-                      </p>
-                      <div className="mt-4 space-y-3 text-sm text-[rgba(245,239,229,0.68)]">
-                        <div className="flex items-start gap-3 border-b border-white/6 pb-3">
-                          <span className="font-data text-[0.62rem] text-[#f0cf86]">01</span>
-                          <p>You talk to a real person before spending a dime. No bots. No runaround.</p>
-                        </div>
-                        <div className="flex items-start gap-3 border-b border-white/6 pb-3">
-                          <span className="font-data text-[0.62rem] text-[#f0cf86]">02</span>
-                          <p>Royalties pay you 24/7 from every trade on the platform. Automatically.</p>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <span className="font-data text-[0.62rem] text-[#f0cf86]">03</span>
-                          <p>November 1, 2026 exchange launch — your presale price disappears after that.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              <div className="pointer-events-none absolute inset-x-12 bottom-8 h-16 rounded-full bg-[radial-gradient(55%_82%_at_50%_50%,rgba(153,69,255,0.22)_0%,rgba(20,241,149,0.08)_44%,transparent_76%)] blur-2xl" />
             </motion.div>
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 z-20 overflow-hidden border-y border-white/8 bg-black/35 backdrop-blur-lg">
-            <motion.div data-strip className="marquee-track py-3">
-              {[...tickerItems, ...tickerItems].map((item, index) => (
-                <div
-                  key={`${item}-${index}`}
-                  className="font-data flex items-center gap-4 px-5 text-[0.68rem] uppercase tracking-[0.3em] text-white/56"
-                >
-                  <span>{item}</span>
-                  <span className="text-[#d4b06a]">/</span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(to_top,rgba(5,3,11,0.96),transparent)]" />
         </section>
 
-        <section id="what" data-shutter className="vault-section">
-          <div className="section-frame cut-corners relative px-6 py-8 lg:px-10 lg:py-12">
-            <div className="pointer-events-none absolute inset-0 hidden lg:block">
-              {shutterPlateClassNames.map((plateClassName, index) => (
-                <div
-                  key={index}
-                  data-shutter-plate
-                  className={`absolute inset-y-0 metal-hatch border-r border-white/8 bg-[linear-gradient(180deg,rgba(48,52,58,0.74),rgba(12,12,14,0.96))] ${plateClassName}`}
-                />
-              ))}
-            </div>
-            <div className="relative z-10">
-              <div className="max-w-3xl">
-                <span className="section-kicker">The opportunity</span>
-                <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4.3rem]">
-                  Passive income. Real assets. One token. And you&apos;re early.
-                </h2>
-                <p className="mt-6 max-w-2xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                  Iron Vault Token pays royalties from every trade on the platform. It&apos;s
-                  backed by a roadmap to acquire commercial real estate. And right now,
-                  you can get in at $0.001 per token — before anyone else.
-                </p>
-              </div>
-
-              <div data-assemble className="mt-12 grid gap-5 lg:grid-cols-3">
-                {architectureCards.map((card) => (
-                  <article key={card.eyebrow} className="panel-surface cut-corners p-6 lg:p-7">
-                    <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      {card.eyebrow}
-                    </p>
-                    <h3 className="mt-5 text-2xl leading-tight tracking-[0.01em] text-white">
-                      {card.title}
-                    </h3>
-                    <p className="mt-5 text-sm leading-7 text-[rgba(245,239,229,0.66)] lg:text-base">
-                      {card.body}
-                    </p>
-                    <div className="mt-6 data-pill">{card.metric}</div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="why" className="vault-section">
-          <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-            <div>
-              <span className="section-kicker">Why right now</span>
-              <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                This price vanishes the second the exchange opens. There is no round two.
-              </h2>
-              <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                The people who got into Bitcoin early, Ethereum early, Solana early — they
-                all had one thing in common: they moved before everyone else. This is your
-                window. $0.001 per token. Once it closes, it&apos;s market price only.
-              </p>
-              <div className="mt-8 glow-divider max-w-xl" />
-            </div>
-
-            <div data-stack className="relative grid gap-4 lg:min-h-[32rem]">
-              {whyCards.map((card, index) => (
-                <article
-                  key={card.eyebrow}
-                  data-stack-card
-                  className={`panel-surface cut-corners p-6 lg:absolute lg:w-[78%] lg:p-7 ${whyCardPositionClassNames[index]}`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                        {card.eyebrow}
-                      </p>
-                      <h3 className="mt-4 text-2xl leading-tight text-white">{card.title}</h3>
-                    </div>
-                    <span className="font-data text-xl text-[#d4b06a]">{card.metric}</span>
-                  </div>
-                  <p className="mt-5 max-w-lg text-sm leading-7 text-[rgba(245,239,229,0.66)] lg:text-base">
-                    {card.body}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="process" className="vault-section">
-          <div data-process-pin className="section-frame cut-corners px-6 py-8 lg:px-10 lg:py-12">
-            <div className="grid gap-10 lg:h-[38rem] lg:grid-cols-[0.82fr_1.18fr]">
-              <div className="flex flex-col justify-between gap-6">
-                <div>
-                  <span className="section-kicker">It&apos;s simple</span>
-                  <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                    Drop your info. We call you. You decide. That&apos;s it.
-                  </h2>
-                  <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                    No checkout page. No pressure. Just a 60-second form and a call
-                    from a real person who actually answers your questions. If it&apos;s not
-                    for you, you walk away — zero strings attached.
-                  </p>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="panel-surface cut-corners p-5">
-                    <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      Your price
-                    </p>
-                    <p className="mt-4 text-lg text-white">$0.001 per token — this will never be this low again.</p>
-                  </div>
-                  <div className="panel-surface cut-corners p-5">
-                    <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      Questions?
-                    </p>
-                    <p className="mt-4 text-lg text-white">Call us right now: 888-368-2502.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative flex gap-5 lg:pl-6">
-                <div className="relative hidden w-6 lg:block">
-                  <div className="absolute bottom-0 left-1/2 top-2 w-px -translate-x-1/2 bg-white/10" />
-                  <div
-                    data-process-line
-                    className="absolute bottom-0 left-1/2 top-2 w-px -translate-x-1/2 bg-[linear-gradient(180deg,rgba(240,207,134,0.08),rgba(240,207,134,0.92))]"
-                  />
-                </div>
-                <div className="flex-1 space-y-4 lg:space-y-5">
-                  {processSteps.map((step) => (
-                    <article
-                      key={step.id}
-                      data-process-step
-                      className="panel-surface cut-corners p-5 lg:p-6"
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-[#d4b06a]">
-                            {step.id}
-                            {" // "}
-                            {step.label}
-                          </p>
-                          <h3 className="mt-4 text-xl leading-tight text-white lg:text-[1.45rem]">
-                            {step.title}
-                          </h3>
-                        </div>
-                        <span className="data-pill shrink-0">{step.note}</span>
-                      </div>
-                      <p className="mt-5 text-sm leading-7 text-[rgba(245,239,229,0.66)] lg:text-base">
-                        {step.body}
-                      </p>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="modules" className="vault-section">
-          <div className="max-w-3xl">
-            <span className="section-kicker">What&apos;s inside</span>
-            <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-              Not just a token. An entire ecosystem built to pay you.
+        <section id="what" className="px-6 pb-8 pt-16 sm:px-10 lg:px-16 xl:px-20">
+          <div className="mx-auto max-w-[1180px] rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl sm:p-10 lg:p-12">
+            <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[#c6a9ff]">What is Iron Vault Token?</p>
+            <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl lg:text-5xl">
+              A platform access token with an education portal at its core.
             </h2>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-              Royalties. Real estate. A stablecoin roadmap. A referral program that
-              pays 10% forever. This is what&apos;s behind Iron Vault Token.
+            <p className="mt-6 max-w-4xl text-base leading-8 text-white/66 lg:text-lg">
+              Iron Vault Token is designed to give members access to a guided ecosystem where education comes first. The token unlocks pathways into learning, community, and practical participation so people can make informed decisions in evolving markets.
             </p>
           </div>
+        </section>
 
-          <div className="mt-10 overflow-x-auto pb-4 lg:overflow-visible">
-            <div
-              data-assemble
-              className="grid auto-cols-[84vw] grid-flow-col grid-rows-1 gap-4 snap-x snap-mandatory lg:auto-cols-auto lg:grid-flow-row lg:grid-cols-4 lg:grid-rows-3"
-            >
-              {moduleCards.map((card) => (
-                <article
-                  key={card.eyebrow}
-                  className={`panel-surface cut-corners snap-start p-6 lg:p-7 ${card.desktopClassName}`}
+        <section id="phases" className="px-6 pb-8 pt-12 sm:px-10 lg:px-16 xl:px-20">
+          <div className="mx-auto max-w-[1180px]">
+            <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[#c6a9ff]">The Three Phases</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">Built for long-term education and participation.</h2>
+            <div className="mt-9 grid gap-4 md:grid-cols-3">
+              {phases.map((phase, index) => (
+                <motion.article
+                  key={phase.title}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.35 }}
+                  transition={{ duration: 0.78, delay: index * 0.08, ease: entryEase }}
+                  className="rounded-[1.6rem] border border-white/10 bg-[linear-gradient(170deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-6"
                 >
-                  <div className="flex h-full flex-col justify-between gap-8">
-                    <div>
-                      <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                        {card.eyebrow}
-                      </p>
-                      <h3 className="mt-5 text-2xl leading-tight text-white lg:text-[2rem]">
-                        {card.title}
-                      </h3>
-                      <p className="mt-5 text-sm leading-7 text-[rgba(245,239,229,0.66)] lg:text-base">
-                        {card.body}
-                      </p>
-                    </div>
-                    <div className="data-pill w-fit">{card.metric}</div>
-                  </div>
-                </article>
+                  <p className="text-[0.62rem] uppercase tracking-[0.26em] text-white/42">Phase 0{index + 1}</p>
+                  <h3 className="mt-4 text-xl font-semibold tracking-[-0.015em] text-white">{phase.title}</h3>
+                  <p className="mt-4 text-sm leading-7 text-white/64">{phase.description}</p>
+                </motion.article>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="proof" className="vault-section">
-          <div className="grid gap-10 lg:grid-cols-[0.84fr_1.16fr]">
-            <div>
-              <span className="section-kicker">We&apos;re the real deal</span>
-              <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                Real company. Real phone number. Real people. Call us right now.
-              </h2>
-              <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                Common Wealth Ventures LLC — Peoria, Arizona. Pick up the phone and dial
-                888-368-2502. A human answers. We&apos;ll tell you everything. No secrets,
-                no fine print, no runaround.
-              </p>
-
-              <div className="mt-10 grid gap-4 sm:grid-cols-2">
-                {trustMetrics.map((metric) => (
-                  <article key={metric.label} data-metric className="metric-chip cut-corners px-5 py-5">
-                    <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      {metric.label}
-                    </p>
-                    <p className="mt-4 text-lg text-white">{metric.value}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-5">
-              <div data-assemble className="grid gap-5 lg:grid-cols-3">
-                {trustPanels.map((panel) => (
-                  <article key={panel.eyebrow} className="panel-surface cut-corners p-6">
-                    <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      {panel.eyebrow}
-                    </p>
-                    <h3 className="mt-4 text-xl leading-tight text-white">{panel.title}</h3>
-                    <p className="mt-4 text-sm leading-7 text-[rgba(245,239,229,0.66)]">
-                      {panel.body}
-                    </p>
-                    <div className="mt-5 space-y-3">
-                      {panel.points.map((point) => (
-                        <div key={point} className="flex items-start gap-3 text-sm text-[rgba(245,239,229,0.7)]">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#d4b06a] shadow-[0_0_12px_rgba(212,176,106,0.48)]" />
-                          <span>{point}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </article>
-                ))}
-              </div>
-
-              <div data-assemble className="grid gap-4 md:grid-cols-3">
-                {operatingRoles.map((role) => (
-                  <article key={role.title} className="panel-surface cut-corners p-5 steel-sweep">
-                    <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      {role.title}
-                    </p>
-                    <p className="mt-4 text-sm leading-7 text-[rgba(245,239,229,0.66)]">
-                      {role.body}
-                    </p>
-                  </article>
-                ))}
-              </div>
+        <section id="education" className="px-6 pb-8 pt-12 sm:px-10 lg:px-16 xl:px-20">
+          <div className="mx-auto max-w-[1180px] rounded-[2rem] border border-white/10 bg-[linear-gradient(140deg,rgba(153,69,255,0.12),rgba(20,241,149,0.06),rgba(255,255,255,0.02))] p-8 sm:p-10 lg:p-12">
+            <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[#c6a9ff]">Education Modules</p>
+            <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl lg:text-5xl">
+              Learn how real estate, tokenization, and stablecoins actually work.
+            </h2>
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {educationModules.map((item, index) => (
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.72, delay: index * 0.07, ease: entryEase }}
+                  className="flex items-start gap-3 rounded-2xl border border-white/10 bg-black/25 p-4"
+                >
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-[#9945FF] shadow-[0_0_0_4px_rgba(153,69,255,0.2)]" />
+                  <p className="text-sm leading-7 text-white/74">{item}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
-        <section id="faq" className="vault-section">
-          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr]">
-            <div>
-              <span className="section-kicker">Questions?</span>
-              <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                Everything you&apos;re probably wondering — answered.
-              </h2>
-              <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                Still skeptical? Good. Read every answer below. Then call 888-368-2502 or
-                drop your info in the form and let us prove it on the phone.
-              </p>
-            </div>
-            <FAQAccordion items={faqItems} />
-          </div>
-        </section>
+        <section id="community" className="px-6 pb-16 pt-12 sm:px-10 lg:px-16 xl:px-20">
+          <div className="mx-auto max-w-[1180px] rounded-[2rem] border border-white/10 bg-white/[0.02] p-8 sm:p-10 lg:p-12">
+            <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[#c6a9ff]">Community</p>
+            <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl lg:text-5xl">
+              Join the movement.
+            </h2>
+            <p className="mt-6 max-w-4xl text-base leading-8 text-white/66 lg:text-lg">
+              This community is for people who want clarity, conviction, and real conversation. We are building something legendary with education at the center, and we invite you to learn alongside us.
+            </p>
 
-        <section id="intake" className="vault-section pb-28 lg:pb-32">
-          <div className="section-frame cut-corners overflow-hidden px-6 py-8 lg:px-10 lg:py-12">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,176,106,0.16),transparent_24%),linear-gradient(180deg,transparent,rgba(0,0,0,0.36))]" />
-            <div className="relative grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-              <div>
-                <span className="section-kicker">Don&apos;t wait on this</span>
-                <h2 className="font-display mt-6 text-4xl leading-[0.95] tracking-[-0.04em] text-white lg:text-[4rem]">
-                  60 seconds. That&apos;s all it takes to claim your spot.
-                </h2>
-                <p className="mt-6 max-w-xl text-base leading-8 text-[rgba(245,239,229,0.68)] lg:text-lg">
-                  Name. Phone. Email. That&apos;s it. We call you within 24 hours, answer
-                  every question, and if you want in — we lock your 250,000 tokens
-                  at $0.001 before anyone else.
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  {ctaSignals.map((signal) => (
-                    <div key={signal} className="data-pill">
-                      {signal}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="panel-surface cut-corners p-5 lg:p-7">
-                <div className="mb-6 flex items-center justify-between gap-4 border-b border-white/8 pb-5">
-                  <div>
-                    <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                      Claim your tokens
-                    </p>
-                    <p className="mt-2 text-xl text-white">Lock in your presale spot</p>
-                  </div>
-                  <div className="data-pill">filling fast</div>
-                </div>
-                <IntakeForm />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="fixed inset-x-4 bottom-4 z-40 lg:hidden">
-          <motion.button
-            type="button"
-            onClick={scrollToIntake}
-            whileTap={{ scale: 0.985 }}
-            className="panel-surface cut-corners flex w-full items-center justify-between px-5 py-4"
-          >
-            <div className="text-left">
-              <p className="font-data text-[0.62rem] uppercase tracking-[0.3em] text-white/42">
-                Limited spots left
-              </p>
-              <p className="mt-1 text-sm text-white">Get your tokens now</p>
-            </div>
-            <span className="data-pill">enter</span>
-          </motion.button>
-        </div>
-
-        <AnimatePresence>
-          {!booted ? (
-            <motion.div
-              className="fixed inset-0 z-[80] overflow-hidden bg-[#050505]"
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.38, ease: heroEase }}
-            >
-              <div className="vault-grid absolute inset-0 opacity-35" />
-              <motion.div
-                className="absolute inset-y-0 left-0 w-1/2 bg-[linear-gradient(180deg,rgba(67,70,76,0.9),rgba(14,14,16,0.98))] metal-hatch"
-                exit={{ x: "-102%" }}
-                transition={{ duration: 1.18, delay: 0.34, ease: panelEase }}
-              />
-              <motion.div
-                className="absolute inset-y-0 right-0 w-1/2 bg-[linear-gradient(180deg,rgba(67,70,76,0.9),rgba(14,14,16,0.98))] metal-hatch"
-                exit={{ x: "102%" }}
-                transition={{ duration: 1.18, delay: 0.34, ease: panelEase }}
-              />
-              <motion.div
-                initial={{ opacity: 0, scale: 0.72, filter: "blur(14px)" }}
-                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                exit={{ opacity: 0, scale: 1.12, filter: "blur(18px)" }}
-                transition={{ duration: 1.1, ease: heroEase }}
-                className="absolute inset-0 flex flex-col items-center justify-center gap-6"
+            <div id="representative" className="mt-9 flex flex-wrap items-center gap-4">
+              <a
+                href="#"
+                className="rounded-full bg-white px-7 py-3.5 text-sm font-medium tracking-[-0.01em] text-[#0b0916] shadow-[0_8px_28px_rgba(255,255,255,0.14)] transition-colors duration-300 hover:bg-[#f2efff]"
               >
-                <VaultMark className="h-28 w-28 lg:h-36 lg:w-36" />
-                <div className="text-center">
-                  <p className="font-data text-[0.68rem] uppercase tracking-[0.36em] text-white/42">
-                    Iron Vault Token
-                  </p>
-                  <p className="mt-3 font-display text-3xl tracking-[0.14em] text-white lg:text-5xl">
-                    Iron Vault Token
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 font-data text-[0.62rem] uppercase tracking-[0.32em] text-[#d4b06a]">
-                  <span className="h-2 w-2 rounded-full bg-[#d4b06a] shadow-[0_0_20px_rgba(212,176,106,0.5)] [animation:pulse-glow_1.6s_ease-in-out_infinite]" />
-                  Presale loading
-                </div>
-              </motion.div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
+                Speak to a Representative
+              </a>
+              <a
+                href="#"
+                className="rounded-full border border-white/20 bg-white/[0.03] px-7 py-3.5 text-sm font-medium tracking-[-0.01em] text-white/84 transition-all duration-300 hover:border-white/35 hover:bg-white/[0.08]"
+              >
+                Join the Community
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
     </MotionConfig>
   );
